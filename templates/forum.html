@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Diễn đàn - Trò chuyện</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <nav>
+    <a href="/">🏠 Dự đoán</a>
+    <a href="/analysis_page" class="active">📊 Phân tích dữ liệu</a>
+    <a href="/forum">💬 Diễn đàn</a>
+  </nav>
+
+
+  <main class="container">
+    <h2>💬 Diễn đàn - Trò chuyện chung</h2>
+
+    <!-- Nếu chưa có tên, hiện khung nhập tên -->
+    <div id="nameBox" class="name-box">
+      <label for="username">Tên của bạn</label>
+      <div class="name-row">
+        <input id="username" type="text" placeholder="Nhập tên (ví dụ: An)" />
+        <button id="saveName" class="btn primary">Lưu tên</button>
+      </div>
+      <p class="hint">Tên chỉ cần nhập 1 lần — những lần sau sẽ tự động sử dụng.</p>
+    </div>
+
+    <!-- Khung chat (ẩn nếu chưa nhập tên) -->
+    <div id="chatBox" class="chat-box" style="display:none;">
+      <div id="messages" class="messages" aria-live="polite"></div>
+
+      <div class="chat-input">
+        <input id="chatText" type="text" placeholder="Nhập tin nhắn..." maxlength="300" />
+        <button id="sendBtn" class="btn primary">Gửi</button>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button id="clearLocal" class="btn ghost">Đổi tên / Xóa lưu tên</button>
+    </div>
+
+    <p class="small muted">Lưu ý: Diễn đàn là công khai — mọi người đều thấy tin nhắn. Tối đa hiển thị 20 tin gần nhất.</p>
+  </main>
+
+  <script src="{{ url_for('static', filename='js/forum.js') }}"></script>
+</body>
+</html>

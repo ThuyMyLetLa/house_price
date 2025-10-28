@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Phân tích dữ liệu</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <nav>
+    <a href="/">🏠 Dự đoán</a>
+    <a href="/analysis_page" class="active">📊 Phân tích dữ liệu</a>
+    <a href="/forum">💬 Diễn đàn</a>
+  </nav>
+
+  <div class="container">
+    <h2>📊 Phân tích dữ liệu</h2>
+
+    <form id="analysisForm" class="analysis-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Quận/Huyện:</label>
+          <select id="districtSelect" class="select-input">
+            <option value="">-- Chọn Quận/Huyện --</option>
+            {% for d in districts %}<option>{{ d }}</option>{% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Phường/Xã:</label>
+          <select id="wardSelect" class="select-input" disabled>
+            <option value="">-- Chọn Phường/Xã --</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="submit" class="analyze-btn">📈 Phân tích dữ liệu</button>
+    </form>
+
+    <div class="charts">
+      <h3>Biểu đồ theo diện tích</h3>
+      <canvas id="areaChart"></canvas>
+
+      <h3>Biểu đồ theo số phòng ngủ</h3>
+      <canvas id="roomChart"></canvas>
+    </div>
+  </div>
+
+  <script>
+    // Dữ liệu phường/xã theo quận/huyện
+    const wardData = {
+      "TP Thái Nguyên": ["Phường Quang Trung", "Phường Tân Lập", "Phường Cam Giá", "Phường Phan Đình Phùng", "Phường Thịnh Đán"],
+      "Huyện Đồng Hỷ": ["Xã Hóa Trung", "Xã Hóa Thượng", "Thị trấn Trại Cau", "Xã Khe Mo", "Xã Nam Hòa"],
+      "TP Phổ Yên": ["Phường Ba Hàng", "Phường Bãi Bông", "Phường Tân Phú", "Phường Nam Tiến", "Phường Bắc Sơn"]
+    };
+  </script>
+
+  <script src="{{ url_for('static', filename='js/analysis.js') }}"></script>
+</body>
+</html>

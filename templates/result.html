@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kết quả dự đoán</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1>Kết quả dự đoán</h1>
+    <h2>Giá dự đoán: <strong>{{ predicted_price }}</strong> triệu</h2>
+
+    <h3>Top yếu tố ảnh hưởng:</h3>
+    <ul>
+        {% for key, value in impact_map.items() %}
+        <li>{{ key }}: {{ value|round(2) }}%</li>
+        {% endfor %}
+    </ul>
+
+    <button onclick="window.location.href='{{ url_for('home') }}'">Quay lại</button>
+</div>
+</body>
+</html>
