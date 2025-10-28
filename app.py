@@ -3,7 +3,7 @@ from flask_cors import CORS
 import joblib
 import pandas as pd
 import numpy as np
-from datetime import datetime  # ✅ import đúng
+from datetime import datetime
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
 CORS(app)
@@ -46,24 +46,19 @@ messages = []  # Danh sách tin nhắn
 
 @app.route("/send_message", methods=["POST"])
 def send_message():
-    """Nhận tin nhắn mới và lưu vào danh sách (tối đa 20 tin gần nhất)"""
     data = request.get_json()
     name = data.get("name")
     text = data.get("text")
 
     if name and text:
-        timestamp = datetime.now().strftime("%H:%M")  # ✅ tránh lỗi NoneType
+        timestamp = datetime.now().strftime("%H:%M")
         messages.append({"name": name, "text": text, "time": timestamp})
-
-        # Giữ tối đa 20 tin gần nhất
         if len(messages) > 20:
             messages.pop(0)
-
     return jsonify({"status": "ok"})
 
 @app.route("/get_messages", methods=["GET"])
 def get_messages():
-    """Trả về 20 tin nhắn gần nhất"""
     return jsonify(messages[-20:])
 
 # ====== API DỰ ĐOÁN ======
@@ -72,14 +67,12 @@ def predict():
     data = request.get_json()
     df = pd.DataFrame([data])
     df_encoded = pd.get_dummies(df)
-
     for col in feature_names:
         if col not in df_encoded.columns:
             df_encoded[col] = 0
     df_encoded = df_encoded[feature_names]
 
     prediction = model.predict(df_encoded)[0]
-
     impact_map = {
         "huyen_tp": 15, "xa_phuong": 10, "dien_tich": 25, "phong_ngu": 10,
         "phong_tam": 10, "so_tang": 10, "nam_xay": 10, "huong": 5, "noi_that": 5
@@ -133,4 +126,5 @@ def analysis():
 
 # ====== CHẠY SERVER ======
 if __name__ == "__main__":
-    app.run(debug=True)  # không cần host/port, gunicorn sẽ quản lý
+    # ⚠️ Dùng 0.0.0.0 để Render truy cập từ ngoài
+    app.run(debug=True, host="0.0.0.0", port=5001)
